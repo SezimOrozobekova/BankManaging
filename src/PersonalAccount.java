@@ -49,13 +49,18 @@ class PersonalAccount {
     /**
      * @param m is amount. Must be a non-negative number
      */
-    void withdraw(double m) {
+    void withdraw(double m) throws InsufficientBalanceException {
         if(m>=0){
             //create object
             Amount t = new Amount(m, "withdraw");
-            //add to the transactions list
-            this.transactions.add(t);
-            this.balance -= m;
+            if(m > balance){
+                throw new InsufficientBalanceException("There is no enough money. Your balance: " + balance);
+            } else {
+                //add to the transactions list
+                this.transactions.add(t);
+                this.balance -= m;
+            }
+
         }
         else {
             System.out.println("Unaccepted amount: " + m);
